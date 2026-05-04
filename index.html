@@ -527,7 +527,7 @@ nav {
   margin-top: 16px;
   background: var(--black);
   color: var(--white);
-  border: none;
+  border: 2px solid var(--black);
   padding: 18px;
   font-family: 'DM Sans', sans-serif;
   font-size: 11px;
@@ -839,6 +839,10 @@ footer {
     </select>
   </div>
   <div class="form-group">
+    <label class="form-label">Pilih Tanggal</label>
+    <input type="date" class="form-input" id="f-tanggal"/>
+  </div>
+  <div class="form-group">
     <label class="form-label">Pilih Jam</label>
     <select class="form-select" id="f-jam">
       <option value="">Pilih jam kedatangan</option>
@@ -890,14 +894,20 @@ footer {
       const nama = document.getElementById('f-nama').value.trim();
       const hp = document.getElementById('f-hp').value.trim();
       const layanan = document.getElementById('f-layanan').value;
+      const tanggal = document.getElementById('f-tanggal').value;
       const jam = document.getElementById('f-jam').value;
 
-      if (!nama || !hp || !layanan || !jam) {
+      if (!nama || !hp || !layanan || !tanggal || !jam) {
         alert('Lengkapi semua data ya!');
         return;
       }
 
-      const msg = `Halo Razor Barbershop! 👋\n\nSaya ingin daftar antrian:\n\n*Nama:* ${nama}\n*No HP:* ${hp}\n*Layanan:* ${layanan}\n*Jam:* ${jam}\n\nTerima kasih!`;
+      // Format tanggal jadi lebih readable
+      const tgl = new Date(tanggal);
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      const tanggalFormatted = tgl.toLocaleDateString('id-ID', options);
+
+      const msg = `Halo Razor Barbershop! 👋\n\nSaya ingin daftar antrian:\n\n*Nama:* ${nama}\n*No HP:* ${hp}\n*Layanan:* ${layanan}\n*Tanggal:* ${tanggalFormatted}\n*Jam:* ${jam}\n\nTerima kasih!`;
       window.open(`https://wa.me/6281234567890?text=${encodeURIComponent(msg)}`, '_blank');
     }
   </script>

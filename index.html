@@ -244,13 +244,14 @@ nav {
 /* SERVICES */
 .section {
   padding: 120px 40px;
+  background: var(--black);
 }
 
 .section-label {
   font-size: 10px;
   letter-spacing: 4px;
   text-transform: uppercase;
-  color: var(--mid);
+  color: #555;
   margin-bottom: 64px;
   display: flex;
   align-items: center;
@@ -262,31 +263,31 @@ nav {
   display: block;
   width: 32px;
   height: 1px;
-  background: var(--mid);
+  background: #555;
 }
 
 .services-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  border-left: 1px solid var(--border);
-  border-top: 1px solid var(--border);
+  border-left: 1px solid #222;
+  border-top: 1px solid #222;
 }
 
 .service-card {
-  border-right: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
+  border-right: 1px solid #222;
+  border-bottom: 1px solid #222;
   padding: 48px 40px;
   transition: background 0.3s;
   cursor: default;
 }
 
-.service-card:hover { background: var(--grey); }
+.service-card:hover { background: #111; }
 
 .service-num {
   font-family: 'Bebas Neue', sans-serif;
   font-size: 13px;
   letter-spacing: 3px;
-  color: var(--mid);
+  color: #555;
   margin-bottom: 32px;
 }
 
@@ -296,12 +297,13 @@ nav {
   letter-spacing: 1px;
   margin-bottom: 12px;
   line-height: 1;
+  color: var(--white);
 }
 
 .service-desc {
   font-size: 13px;
   font-weight: 300;
-  color: var(--mid);
+  color: #666;
   line-height: 1.7;
   margin-bottom: 32px;
 }
@@ -310,6 +312,7 @@ nav {
   font-family: 'Bebas Neue', sans-serif;
   font-size: 28px;
   letter-spacing: 1px;
+  color: var(--white);
 }
 
 /* BARBERS */

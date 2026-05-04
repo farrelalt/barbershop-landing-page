@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RAZOR — Barbershop</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+```
+:root {
+  --black: #0a0a0a;
+  --white: #ffffff;
+  --grey: #f5f5f5;
+  --mid: #999;
+  --border: #e8e8e8;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--white);
+  color: var(--black);
+  overflow-x: hidden;
+}
+
+/* NAVBAR */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 64px;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 26px;
+  letter-spacing: 4px;
+  color: var(--black);
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  gap: 36px;
+  list-style: none;
+}
+
+.nav-links a {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--black);
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.nav-links a:hover { opacity: 0.4; }
+
+.nav-cta {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  background: var(--black);
+  color: var(--white);
+  padding: 10px 22px;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.nav-cta:hover { opacity: 0.7; }
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 40px 80px;
+  position: relative;
+  background: var(--grey);
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #f0f0f0 0%, #e8e8e8 100%);
+}
+
+.hero-number {
+  position: absolute;
+  top: 50%;
+  right: -20px;
+  transform: translateY(-50%);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(200px, 35vw, 420px);
+  color: rgba(0,0,0,0.04);
+  line-height: 1;
+  user-select: none;
+  pointer-events: none;
+}
+
+.hero-tag {
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 24px;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.2s forwards;
+}
+
+.hero-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(72px, 12vw, 160px);
+  line-height: 0.9;
+  letter-spacing: -2px;
+  color: var(--black);
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.4s forwards;
+}
+
+.hero-title span {
+  display: block;
+}
+
+.hero-sub {
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--mid);
+  margin-top: 28px;
+  max-width: 320px;
+  line-height: 1.7;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.6s forwards;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  margin-top: 48px;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.8s forwards;
+}
+
+.btn-primary {
+  display: inline-block;
+  background: var(--black);
+  color: var(--white);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 16px 36px;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.btn-primary:hover { opacity: 0.7; }
+
+.btn-ghost {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--black);
+  text-decoration: none;
+  border-bottom: 1px solid var(--black);
+  padding-bottom: 2px;
+  transition: opacity 0.2s;
+}
+
+.btn-ghost:hover { opacity: 0.4; }
+
+.hero-scroll {
+  position: absolute;
+  bottom: 40px;
+  right: 40px;
+  writing-mode: vertical-rl;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--mid);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  opacity: 0;
+  animation: fadeUp 0.8s 1s forwards;
+}
+
+.hero-scroll::after {
+  content: '';
+  display: block;
+  width: 1px;
+  height: 48px;
+  background: var(--mid);
+}
+
+/* MARQUEE */
+.marquee-wrap {
+  overflow: hidden;
+  background: var(--black);
+  padding: 16px 0;
+  border-top: 1px solid var(--black);
+}
+
+.marquee-track {
+  display: flex;
+  gap: 0;
+  animation: marquee 20s linear infinite;
+  white-space: nowrap;
+}
+
+.marquee-item {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 14px;
+  letter-spacing: 4px;
+  color: var(--white);
+  padding: 0 40px;
+  flex-shrink: 0;
+}
+
+.marquee-dot {
+  color: #555;
+  padding: 0 8px;
+}
+
+/* SERVICES */
+.section {
+  padding: 120px 40px;
+}
+
+.section-label {
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 64px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.section-label::before {
+  content: '';
+  display: block;
+  width: 32px;
+  height: 1px;
+  background: var(--mid);
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-left: 1px solid var(--border);
+  border-top: 1px solid var(--border);
+}
+
+.service-card {
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 48px 40px;
+  transition: background 0.3s;
+  cursor: default;
+}
+
+.service-card:hover { background: var(--grey); }
+
+.service-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 13px;
+  letter-spacing: 3px;
+  color: var(--mid);
+  margin-bottom: 32px;
+}
+
+.service-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 32px;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+  line-height: 1;
+}
+
+.service-desc {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--mid);
+  line-height: 1.7;
+  margin-bottom: 32px;
+}
+
+.service-price {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px;
+  letter-spacing: 1px;
+}
+
+/* BARBERS */
+.barbers-section {
+  padding: 120px 40px;
+  background: var(--grey);
+}
+
+.barbers-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  margin-top: 0;
+}
+
+.barber-card {
+  background: var(--white);
+  overflow: hidden;
+}
+
+.barber-img {
+  width: 100%;
+  aspect-ratio: 3/4;
+  background: #ddd;
+  position: relative;
+  overflow: hidden;
+}
+
+.barber-img-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #e0e0e0, #c8c8c8);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 80px;
+  color: rgba(0,0,0,0.08);
+  letter-spacing: 2px;
+}
+
+.barber-info {
+  padding: 28px 32px;
+}
+
+.barber-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 24px;
+  letter-spacing: 2px;
+  margin-bottom: 6px;
+}
+
+.barber-role {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--mid);
+}
+
+/* GALLERY */
+.gallery-section { padding: 120px 40px; }
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto;
+  gap: 2px;
+}
+
+.gallery-item {
+  aspect-ratio: 1;
+  background: var(--grey);
+  overflow: hidden;
+  position: relative;
+}
+
+.gallery-item:first-child {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+.gallery-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 14px;
+  letter-spacing: 3px;
+  color: rgba(0,0,0,0.15);
+  background: linear-gradient(135deg, #ebebeb, #ddd);
+  transition: transform 0.4s ease;
+}
+
+.gallery-item:hover .gallery-placeholder { transform: scale(1.04); }
+
+/* TESTIMONIALS */
+.testi-section {
+  padding: 120px 40px;
+  background: var(--black);
+}
+
+.testi-section .section-label { color: #555; }
+.testi-section .section-label::before { background: #555; }
+
+.testi-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+}
+
+.testi-card {
+  background: #111;
+  padding: 48px 40px;
+}
+
+.testi-stars {
+  font-size: 14px;
+  margin-bottom: 28px;
+  letter-spacing: 4px;
+}
+
+.testi-text {
+  font-size: 15px;
+  font-weight: 300;
+  color: #bbb;
+  line-height: 1.8;
+  margin-bottom: 36px;
+}
+
+.testi-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 16px;
+  letter-spacing: 3px;
+  color: var(--white);
+}
+
+/* INFO + FORM */
+.info-section {
+  padding: 120px 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 120px;
+  align-items: start;
+}
+
+.info-block { }
+
+.info-item {
+  padding: 32px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.info-item:first-of-type { border-top: 1px solid var(--border); }
+
+.info-item-label {
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 12px;
+}
+
+.info-item-value {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.7;
+}
+
+/* FORM */
+.form-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 48px;
+  letter-spacing: 1px;
+  margin-bottom: 48px;
+  line-height: 1;
+}
+
+.form-group {
+  margin-bottom: 24px;
+}
+
+.form-label {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--mid);
+  margin-bottom: 10px;
+}
+
+.form-input, .form-select {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  background: transparent;
+  padding: 12px 0;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  color: var(--black);
+  outline: none;
+  transition: border-color 0.2s;
+  appearance: none;
+}
+
+.form-input:focus, .form-select:focus {
+  border-color: var(--black);
+}
+
+.form-input::placeholder { color: #ccc; }
+
+.form-submit {
+  width: 100%;
+  margin-top: 16px;
+  background: var(--black);
+  color: var(--white);
+  border: none;
+  padding: 18px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.form-submit:hover { opacity: 0.7; }
+
+/* FOOTER */
+footer {
+  padding: 48px 40px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: 4px;
+}
+
+.footer-copy {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--mid);
+}
+
+.footer-links {
+  display: flex;
+  gap: 28px;
+}
+
+.footer-links a {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--mid);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover { color: var(--black); }
+
+/* ANIMATIONS */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  nav { padding: 0 20px; }
+  .nav-links { display: none; }
+
+  .hero { padding: 0 20px 64px; }
+  .hero-title { font-size: clamp(64px, 18vw, 100px); }
+
+  .section { padding: 80px 20px; }
+  .services-grid { grid-template-columns: 1fr; }
+  .barbers-grid { grid-template-columns: 1fr 1fr; }
+  .barbers-section { padding: 80px 20px; }
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+  .gallery-item:first-child { grid-column: span 2; }
+  .testi-section { padding: 80px 20px; }
+  .testi-grid { grid-template-columns: 1fr; }
+  .info-section { grid-template-columns: 1fr; gap: 64px; padding: 80px 20px; }
+  .gallery-section { padding: 80px 20px; }
+  footer { flex-direction: column; gap: 24px; text-align: center; padding: 40px 20px; }
+}
+```
+
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+
+  <nav>
+    <a href="#" class="nav-logo">RAZOR</a>
+    <ul class="nav-links">
+      <li><a href="#layanan">Layanan</a></li>
+      <li><a href="#barber">Barber</a></li>
+      <li><a href="#galeri">Galeri</a></li>
+      <li><a href="#lokasi">Lokasi</a></li>
+    </ul>
+    <a href="#antrian" class="nav-cta">Daftar Antrian</a>
+  </nav>
+
+  <!-- HERO -->
+
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-number">01</div>
+    <p class="hero-tag">Est. 2019 &nbsp;·&nbsp; Jakarta Selatan</p>
+    <h1 class="hero-title">
+      <span>YOUR</span>
+      <span>BEST</span>
+      <span>CUT.</span>
+    </h1>
+    <p class="hero-sub">Presisi dalam setiap potongan. Barbershop dengan standar tinggi untuk tampilan terbaik kamu.</p>
+    <div class="hero-actions">
+      <a href="#antrian" class="btn-primary">Daftar Antrian</a>
+      <a href="#layanan" class="btn-ghost">Lihat Layanan</a>
+    </div>
+    <div class="hero-scroll">Scroll</div>
+  </section>
+
+  <!-- MARQUEE -->
+
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <span class="marquee-item">HAIRCUT</span><span class="marquee-item marquee-dot">·</span>
+      <span class="marquee-item">SHAVE</span><span class="marquee-item marquee-dot">·</span>
+      <span class="marquee-item">GROOMING</span><span class="marquee-item marquee-dot">·</span>
+      <span class="marquee-item">BEARD TRIM</span><span class="marquee-item marquee-dot">·</span>
+      <span class="marquee-item">HAIR WASH</span><span class="marquee-item marquee-dot">·</span>
+      <span class="marquee-item">RAZOR BARBERSHOP</span><span class="marquee-item marquee-dot">·</span>
+      <span class="marquee-item">HAIRCUT</span><span class="marquee-item marquee-dot">·</span>
+      <span class="marquee-item">SHAVE</span><span class="marquee-item marquee-dot">·</span>
+      <span class="marquee-item">GROOMING</span><span class="marquee-item marquee-dot">·</span>
+      <span class="marquee-item">BEARD TRIM</span><span class="marquee-item marquee-dot">·</span>
+      <span class="marquee-item">HAIR WASH</span><span class="marquee-item marquee-dot">·</span>
+      <span class="marquee-item">RAZOR BARBERSHOP</span><span class="marquee-item marquee-dot">·</span>
+    </div>
+  </div>
+
+  <!-- LAYANAN -->
+
+  <section class="section" id="layanan">
+    <p class="section-label reveal">Layanan</p>
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <p class="service-num">01</p>
+        <h3 class="service-name">HAIRCUT</h3>
+        <p class="service-desc">Potongan rambut presisi sesuai bentuk wajah dan gaya yang kamu inginkan.</p>
+        <p class="service-price">Rp 35.000</p>
+      </div>
+      <div class="service-card reveal">
+        <p class="service-num">02</p>
+        <h3 class="service-name">SHAVE</h3>
+        <p class="service-desc">Cukur bersih dengan pisau razor untuk tampilan yang sharp dan rapi.</p>
+        <p class="service-price">Rp 25.000</p>
+      </div>
+      <div class="service-card reveal">
+        <p class="service-num">03</p>
+        <h3 class="service-name">BEARD TRIM</h3>
+        <p class="service-desc">Rapikan jenggot dan kumis dengan teknik yang tepat sesuai kontur wajah.</p>
+        <p class="service-price">Rp 20.000</p>
+      </div>
+      <div class="service-card reveal">
+        <p class="service-num">04</p>
+        <h3 class="service-name">HAIR WASH</h3>
+        <p class="service-desc">Cuci rambut lengkap dengan produk premium, termasuk pijat kepala.</p>
+        <p class="service-price">Rp 15.000</p>
+      </div>
+      <div class="service-card reveal">
+        <p class="service-num">05</p>
+        <h3 class="service-name">PAKET KOMPLIT</h3>
+        <p class="service-desc">Haircut + shave + hair wash dalam satu sesi lengkap yang memanjakan.</p>
+        <p class="service-price">Rp 65.000</p>
+      </div>
+      <div class="service-card reveal">
+        <p class="service-num">06</p>
+        <h3 class="service-name">COLORING</h3>
+        <p class="service-desc">Pewarnaan rambut dengan produk berkualitas untuk tampilan yang bold.</p>
+        <p class="service-price">Rp 120.000</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- BARBERS -->
+
+  <section class="barbers-section" id="barber">
+    <p class="section-label reveal">Tim Kami</p>
+    <div class="barbers-grid">
+      <div class="barber-card reveal">
+        <div class="barber-img">
+          <div class="barber-img-placeholder">RZ</div>
+        </div>
+        <div class="barber-info">
+          <p class="barber-name">RIZAL</p>
+          <p class="barber-role">Senior Barber · 7 tahun</p>
+        </div>
+      </div>
+      <div class="barber-card reveal">
+        <div class="barber-img">
+          <div class="barber-img-placeholder">DN</div>
+        </div>
+        <div class="barber-info">
+          <p class="barber-name">DONI</p>
+          <p class="barber-role">Barber · 4 tahun</p>
+        </div>
+      </div>
+      <div class="barber-card reveal">
+        <div class="barber-img">
+          <div class="barber-img-placeholder">FA</div>
+        </div>
+        <div class="barber-info">
+          <p class="barber-name">FAJAR</p>
+          <p class="barber-role">Junior Barber · 2 tahun</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+
+  <section class="gallery-section" id="galeri">
+    <p class="section-label reveal">Galeri</p>
+    <div class="gallery-grid">
+      <div class="gallery-item reveal"><div class="gallery-placeholder">FOTO</div></div>
+      <div class="gallery-item reveal"><div class="gallery-placeholder">FOTO</div></div>
+      <div class="gallery-item reveal"><div class="gallery-placeholder">FOTO</div></div>
+      <div class="gallery-item reveal"><div class="gallery-placeholder">FOTO</div></div>
+      <div class="gallery-item reveal"><div class="gallery-placeholder">FOTO</div></div>
+    </div>
+  </section>
+
+  <!-- TESTIMONI -->
+
+  <section class="testi-section">
+    <p class="section-label reveal">Testimoni</p>
+    <div class="testi-grid">
+      <div class="testi-card reveal">
+        <p class="testi-stars">★★★★★</p>
+        <p class="testi-text">"Barbernya ngerti banget mau gue, hasil potongannya selalu rapi dan sesuai. Udah langganan sini dari 2 tahun lalu."</p>
+        <p class="testi-name">ANDI S.</p>
+      </div>
+      <div class="testi-card reveal">
+        <p class="testi-stars">★★★★★</p>
+        <p class="testi-text">"Tempatnya bersih, nyaman, barbernya profesional. Gak pernah kecewa tiap ke sini. Highly recommended!"</p>
+        <p class="testi-name">BUDI R.</p>
+      </div>
+      <div class="testi-card reveal">
+        <p class="testi-stars">★★★★★</p>
+        <p class="testi-text">"Harganya worth it banget sama hasilnya. Paket komplitnya mantap, rambut jadi bersih dan rapi semua."</p>
+        <p class="testi-name">KEVIN M.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- INFO + FORM ANTRIAN -->
+
+  <section class="info-section" id="lokasi">
+    <div class="info-block reveal">
+      <p class="section-label" style="margin-bottom:40px;">Info & Lokasi</p>
+      <div class="info-item">
+        <p class="info-item-label">Alamat</p>
+        <p class="info-item-value">Jl. Contoh No. 12, Kebayoran Baru<br>Jakarta Selatan, 12180</p>
+      </div>
+      <div class="info-item">
+        <p class="info-item-label">Jam Buka</p>
+        <p class="info-item-value">Senin – Sabtu: 09.00 – 21.00<br>Minggu: 10.00 – 18.00</p>
+      </div>
+      <div class="info-item">
+        <p class="info-item-label">Kontak</p>
+        <p class="info-item-value">+62 812-3456-7890<br>@razorbarbershop</p>
+      </div>
+      <div class="info-item">
+        <p class="info-item-label">Google Maps</p>
+        <p class="info-item-value"><a href="#" style="color:var(--black); font-weight:500;">Buka di Maps →</a></p>
+      </div>
+    </div>
+
+```
+<div id="antrian" class="reveal">
+  <h2 class="form-title">DAFTAR<br>ANTRIAN</h2>
+  <div class="form-group">
+    <label class="form-label">Nama Lengkap</label>
+    <input type="text" class="form-input" placeholder="Masukkan nama kamu" id="f-nama"/>
+  </div>
+  <div class="form-group">
+    <label class="form-label">Nomor HP</label>
+    <input type="tel" class="form-input" placeholder="08xxxxxxxxxx" id="f-hp"/>
+  </div>
+  <div class="form-group">
+    <label class="form-label">Layanan</label>
+    <select class="form-select" id="f-layanan">
+      <option value="">Pilih layanan</option>
+      <option value="Haircut - Rp35.000">Haircut - Rp 35.000</option>
+      <option value="Shave - Rp25.000">Shave - Rp 25.000</option>
+      <option value="Beard Trim - Rp20.000">Beard Trim - Rp 20.000</option>
+      <option value="Hair Wash - Rp15.000">Hair Wash - Rp 15.000</option>
+      <option value="Paket Komplit - Rp65.000">Paket Komplit - Rp 65.000</option>
+      <option value="Coloring - Rp120.000">Coloring - Rp 120.000</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label class="form-label">Pilih Jam</label>
+    <select class="form-select" id="f-jam">
+      <option value="">Pilih jam kedatangan</option>
+      <option>09.00 – 10.00</option>
+      <option>10.00 – 11.00</option>
+      <option>11.00 – 12.00</option>
+      <option>13.00 – 14.00</option>
+      <option>14.00 – 15.00</option>
+      <option>15.00 – 16.00</option>
+      <option>16.00 – 17.00</option>
+      <option>17.00 – 18.00</option>
+      <option>19.00 – 20.00</option>
+      <option>20.00 – 21.00</option>
+    </select>
+  </div>
+  <button class="form-submit" onclick="daftarAntrian()">Daftar via WhatsApp</button>
+</div>
+```
+
+  </section>
+
+  <!-- FOOTER -->
+
+  <footer>
+    <p class="footer-logo">RAZOR</p>
+    <p class="footer-copy">© 2025 Razor Barbershop</p>
+    <div class="footer-links">
+      <a href="#">Instagram</a>
+      <a href="#">TikTok</a>
+      <a href="#">WhatsApp</a>
+    </div>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 80);
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => observer.observe(el));
+
+    // WA form
+    function daftarAntrian() {
+      const nama = document.getElementById('f-nama').value.trim();
+      const hp = document.getElementById('f-hp').value.trim();
+      const layanan = document.getElementById('f-layanan').value;
+      const jam = document.getElementById('f-jam').value;
+
+      if (!nama || !hp || !layanan || !jam) {
+        alert('Lengkapi semua data ya!');
+        return;
+      }
+
+      const msg = `Halo Razor Barbershop! 👋\n\nSaya ingin daftar antrian:\n\n*Nama:* ${nama}\n*No HP:* ${hp}\n*Layanan:* ${layanan}\n*Jam:* ${jam}\n\nTerima kasih!`;
+      window.open(`https://wa.me/6281234567890?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+  </script>
+
+</body>
+</html>
